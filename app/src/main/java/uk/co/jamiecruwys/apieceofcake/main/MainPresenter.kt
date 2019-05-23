@@ -21,13 +21,17 @@ class MainPresenter(private val view: MainView?) {
         view?.hideError()
         view?.hideResponse()
         view?.showLoading()
-        apiService.getCakeList().enqueue(object: Callback<List<Cake>> {
+        apiService.getCakeList().enqueue(object : Callback<List<Cake>> {
             override fun onResponse(call: Call<List<Cake>>, response: Response<List<Cake>>) {
                 view?.hideLoading()
-                val dto = response.body()
-                dto?.let {
-                    view?.showResponse(it.toString())
-                } ?: view?.showError()
+
+                val cakes = filterCakes(response.body())
+
+                if (cakes.isEmpty()) {
+                    view?.showError()
+                } else {
+                    view?.showResponse(cakes.toString())
+                }
             }
 
             override fun onFailure(call: Call<List<Cake>>, t: Throwable) {
@@ -37,6 +41,12 @@ class MainPresenter(private val view: MainView?) {
         })
     }
 
-    fun onDestroy() {
+    fun filterCakes(cakes: List<Cake?>?): List<Cake> {
+        cakes ?: return listOf()
+        val availableCakes: List<Cake> = cakes.filterNotNull()
+        val uniqueCakes: List<Cake> = availableCakes.distinctBy { it.title }
+        return uniqueCakes.sortedBy { it.title }
     }
+
+    fun onDestroy() {}
 }
