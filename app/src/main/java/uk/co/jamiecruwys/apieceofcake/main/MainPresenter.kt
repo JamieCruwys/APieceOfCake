@@ -19,7 +19,6 @@ class MainPresenter(private val view: MainView?) {
 
     fun onResume() {
         view?.hideError()
-        view?.hideResponse()
         view?.showLoading()
         apiService.getCakeList().enqueue(object : Callback<List<Cake>> {
             override fun onResponse(call: Call<List<Cake>>, response: Response<List<Cake>>) {
@@ -30,7 +29,7 @@ class MainPresenter(private val view: MainView?) {
                 if (cakes.isEmpty()) {
                     view?.showError()
                 } else {
-                    view?.showResponse(cakes.toString())
+                    view?.showCakes(cakes)
                 }
             }
 

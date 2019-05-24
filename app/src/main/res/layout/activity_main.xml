@@ -55,26 +55,18 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
             android:id="@+id/main_content_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <LinearLayout
-                android:orientation="vertical"
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cake_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:scrollbars="vertical"
+                android:layout_height="match_parent"/>
 
-            <TextView
-                    android:id="@+id/response_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"/>
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>
