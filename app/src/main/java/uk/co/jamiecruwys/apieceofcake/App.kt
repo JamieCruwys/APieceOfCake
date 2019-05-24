@@ -1,6 +1,7 @@
 package uk.co.jamiecruwys.apieceofcake
 
 import android.app.Application
+import com.squareup.picasso.Picasso
 import uk.co.jamiecruwys.apieceofcake.di.ApiModule
 import uk.co.jamiecruwys.apieceofcake.di.AppComponent
 import uk.co.jamiecruwys.apieceofcake.di.DaggerAppComponent
@@ -19,5 +20,7 @@ class App : Application() {
             .build()
 
         appComponent.inject(this)
+
+        Picasso.get().isLoggingEnabled = true
     }
 }
