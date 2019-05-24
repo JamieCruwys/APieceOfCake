@@ -44,7 +44,18 @@ class MainPresenter(private val view: MainView?) {
         cakes ?: return listOf()
         val availableCakes: List<Cake> = cakes.filterNotNull()
         val uniqueCakes: List<Cake> = availableCakes.distinctBy { it.title }
-        return uniqueCakes.sortedBy { it.title }
+        val sortedCakes = uniqueCakes.sortedBy { it.title }
+
+        val capitalisedTextCakes = arrayListOf<Cake>()
+        sortedCakes.forEach { cake ->
+            capitalisedTextCakes.add(Cake(
+                cake.title?.capitalize() ?: "",
+                cake.desc?.capitalize() ?: "",
+                cake.image
+            ))
+        }
+
+        return capitalisedTextCakes
     }
 
     fun onDestroy() {}
