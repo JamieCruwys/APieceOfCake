@@ -2,6 +2,8 @@ package uk.co.jamiecruwys.apieceofcake.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
+import android.os.PersistableBundle
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -24,23 +26,71 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
     private val adapter: CakeAdapter =
         CakeAdapter(arrayListOf(), this)
 
+    private val layoutManager = LinearLayoutManager(this)
+
+    private var listState: Parcelable? = null
+    private var dataState: ArrayList<Cake>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         App.appComponent.inject(this)
         presenter.attach(this, this)
 
-        cake_list.layoutManager = LinearLayoutManager(this)
+        cake_list.layoutManager = layoutManager
         cake_list.adapter = adapter
         cake_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         cake_list.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_fall_down)
 
         main_content_container.setOnRefreshListener { presenter.loadData(isSwipeToRefresh = true) }
+
+        if (savedInstanceState == null) {
+            presenter.loadData()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
+        dataState?.let {
+            presenter.restoreState(it)
+        }
+        listState?.let {
+            cake_list?.layoutManager?.onRestoreInstanceState(it)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        listState = cake_list.layoutManager?.onSaveInstanceState()
+        outState?.putParcelable(RECYCLER_VIEW_STATE_KEY, listState)
+
+        dataState = adapter.getItems()
+        outState?.putParcelableArrayList(RECYCLER_VIEW_ITEMS_KEY, dataState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        listState = cake_list.layoutManager?.onSaveInstanceState()
+        outState?.putParcelable(RECYCLER_VIEW_STATE_KEY, listState)
+
+        dataState = adapter.getItems()
+        outState?.putParcelableArrayList(RECYCLER_VIEW_ITEMS_KEY, dataState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.let {
+            listState = it.getParcelable(RECYCLER_VIEW_STATE_KEY)
+            dataState = it.getParcelableArrayList(RECYCLER_VIEW_ITEMS_KEY)
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState)
+        savedInstanceState?.let {
+            listState = it.getParcelable(RECYCLER_VIEW_STATE_KEY)
+            dataState = it.getParcelableArrayList(RECYCLER_VIEW_ITEMS_KEY)
+        }
     }
 
     override fun showLoading() {
@@ -119,5 +169,10 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
             .setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
+    }
+
+    companion object {
+        const val RECYCLER_VIEW_STATE_KEY = "recycler_view_state"
+        const val RECYCLER_VIEW_ITEMS_KEY = "recycler_view_items"
     }
 }
