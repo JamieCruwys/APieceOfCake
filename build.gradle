@@ -34,7 +34,7 @@ task clean(type: Delete) {
 
 ext {
     daggerVersion = '2.22.1'
-    okhttp3Version = '3.14.0'
+    okhttp3Version = '3.11.0'
     retrofitVersion = '2.5.0'
     mockitoVersion = '2.27.0'
     nhaarmanMockitoVersion = '2.1.0'
