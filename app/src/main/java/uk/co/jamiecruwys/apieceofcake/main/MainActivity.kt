@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.jamiecruwys.apieceofcake.App
@@ -69,5 +68,4 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
             .create()
             .show()
     }
-
 }

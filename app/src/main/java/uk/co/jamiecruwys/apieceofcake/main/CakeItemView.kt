@@ -7,5 +7,4 @@ interface CakeItemView {
     fun onCakeClicked(cake: Cake)
 
     fun showCakeInfoDialog(cake: Cake)
-
 }
