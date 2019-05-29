@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.jamiecruwys.apieceofcake.App
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
 
         cake_list.layoutManager = LinearLayoutManager(this)
         cake_list.adapter = adapter
+        cake_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 
     override fun onResume() {
