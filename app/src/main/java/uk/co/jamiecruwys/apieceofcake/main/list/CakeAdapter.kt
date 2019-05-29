@@ -23,6 +23,8 @@ class CakeAdapter(private val cakes: ArrayList<Cake>, private val view: CakeItem
 
     override fun getItemCount() = cakes.size
 
+    fun getItems(): ArrayList<Cake> = cakes
+
     fun setItems(items: List<Cake>) {
         cakes.clear()
         cakes.addAll(items)

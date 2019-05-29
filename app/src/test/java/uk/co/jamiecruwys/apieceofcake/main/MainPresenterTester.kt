@@ -22,8 +22,8 @@ class MainPresenterTester {
         presenter.attach(mainView, cakeView)
     }
 
-    fun onResume() {
-        presenter.onResume()
+    fun loadData(isSwipeToRefresh: Boolean) {
+        presenter.loadData(isSwipeToRefresh)
     }
 
     fun verifySuccess(isSwipeToRefresh: Boolean, cakes: List<Cake>) {
@@ -36,26 +36,28 @@ class MainPresenterTester {
     fun verifyEmpty(isSwipeToRefresh: Boolean) {
         verifyLoadDataCalled(isSwipeToRefresh, false)
         verify(mainView).showEmpty()
-        verify(mainView, times(2)).disableSwipeToRefreshGesture()
         verifyCompletion(isSwipeToRefresh)
     }
 
     fun verifyServerError(isSwipeToRefresh: Boolean) {
         verifyLoadDataCalled(isSwipeToRefresh, false)
         verify(mainView).showServerError()
-        verify(mainView, times(2)).disableSwipeToRefreshGesture()
         verifyCompletion(isSwipeToRefresh)
     }
 
     fun verifyNetworkError(isSwipeToRefresh: Boolean) {
         verifyLoadDataCalled(isSwipeToRefresh, false)
         verify(mainView).showNetworkError()
-        verify(mainView, times(2)).disableSwipeToRefreshGesture()
         verifyCompletion(isSwipeToRefresh)
     }
 
     private fun verifyLoadDataCalled(isSwipeToRefresh: Boolean, shouldAllowSwipeToRefreshAfter: Boolean) {
-        verify(mainView).hideLoading()
+        if (isSwipeToRefresh) {
+            verify(mainView).hideLoading()
+        } else {
+            verify(mainView, times(2)).hideLoading()
+        }
+
         verify(mainView).hideServerError()
         verify(mainView).hideNetworkError()
         verify(mainView).hideEmpty()
@@ -70,34 +72,40 @@ class MainPresenterTester {
                 verify(mainView, times(2)).disableSwipeToRefreshGesture()
             }
             verify(mainView).showLoading()
+        } else if (!shouldAllowSwipeToRefreshAfter) {
+            verify(mainView).disableSwipeToRefreshGesture()
         }
     }
 
     private fun verifyCompletion(isSwipeToRefresh: Boolean) {
         if (isSwipeToRefresh) {
             verify(mainView).hideSwipeToRefreshLoading()
-        } else {
-            verify(mainView).hideLoading()
         }
     }
 
     fun setSuccessResponse(cakes: List<Cake?>? = listOf()) {
         doAnswer {
-            (it.arguments[0] as? CakeRequest.Listener)?.onSuccess?.invoke(cakes)
+            val listener = it.arguments[0] as CakeRequest.Listener
+            listener.onSuccess.invoke(cakes)
+            listener.onCompletion.invoke()
             null
         }.whenever(cakeRequest).execute(any())
     }
 
     fun setServerErrorResponse(responseCode: Int = 404) {
         doAnswer {
-            (it.arguments[0] as? CakeRequest.Listener)?.onServerError?.invoke(responseCode)
+            val listener = it.arguments[0] as CakeRequest.Listener
+            listener.onServerError.invoke(responseCode)
+            listener.onCompletion.invoke()
             null
         }.whenever(cakeRequest).execute(any())
     }
 
     fun setNetworkErrorResponse() {
         doAnswer {
-            (it.arguments[0] as CakeRequest.Listener).onNetworkError.invoke()
+            val listener = it.arguments[0] as CakeRequest.Listener
+            listener.onNetworkError.invoke()
+            listener.onCompletion.invoke()
             null
         }.whenever(cakeRequest).execute(any())
     }

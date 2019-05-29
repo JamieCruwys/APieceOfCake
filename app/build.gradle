@@ -33,6 +33,10 @@ android {
         }
         animationsDisabled true
     }
+    // To use @Parcelize
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
