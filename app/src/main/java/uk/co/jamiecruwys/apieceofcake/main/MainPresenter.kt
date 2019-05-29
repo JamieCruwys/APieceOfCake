@@ -21,26 +21,43 @@ class MainPresenter(private val view: MainView?, private val cakeView: CakeItemV
         loadData()
     }
 
-    fun loadData() {
+    fun loadData(isSwipeToRefresh: Boolean = false) {
+        view?.hideLoading()
         view?.hideError()
         view?.clearCakes()
-        view?.showLoading()
-        apiService.getCakeList().enqueue(object : Callback<List<Cake>> {
-            override fun onResponse(call: Call<List<Cake>>, response: Response<List<Cake>>) {
-                view?.hideLoading()
+        view?.hideCakes()
 
-                val cakes = filterCakes(response.body())
+        if (!isSwipeToRefresh) {
+            view?.hideSwipeToRefreshLoading()
+            view?.disableSwipeToRefreshGesture()
+            view?.showLoading()
+        }
 
-                if (cakes.isEmpty()) {
-                    view?.showError()
-                } else {
-                    view?.showCakes(cakes)
-                }
+        apiService.getCakeList().enqueue(object : Callback<List<Cake?>> {
+            override fun onFailure(call: Call<List<Cake?>>, t: Throwable) {
+                view?.showError()
+                view?.disableSwipeToRefreshGesture()
+                onCompletion()
             }
 
-            override fun onFailure(call: Call<List<Cake>>, t: Throwable) {
-                view?.hideLoading()
-                view?.showError()
+            override fun onResponse(call: Call<List<Cake?>>, response: Response<List<Cake?>>) {
+                val items = filterCakes(response.body())
+                if (items.isEmpty()) {
+                    view?.showError()
+                    view?.disableSwipeToRefreshGesture()
+                } else {
+                    view?.showCakes(items)
+                    view?.enableSwipeToRefreshGesture()
+                }
+                onCompletion()
+            }
+
+            fun onCompletion() {
+                if (isSwipeToRefresh) {
+                    view?.hideSwipeToRefreshLoading()
+                } else {
+                    view?.hideLoading()
+                }
             }
         })
     }

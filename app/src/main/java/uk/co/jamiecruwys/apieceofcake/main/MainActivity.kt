@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import uk.co.jamiecruwys.apieceofcake.App
 import uk.co.jamiecruwys.apieceofcake.R
 import uk.co.jamiecruwys.apieceofcake.api.Cake
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
         cake_list.adapter = adapter
         cake_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        main_content_container.setOnRefreshListener { presenter.loadData() }
+        main_content_container.setOnRefreshListener { presenter.loadData(isSwipeToRefresh = true) }
     }
 
     override fun onResume() {
@@ -41,16 +42,31 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
 
     override fun showLoading() {
         progress_container.isVisible = true
-        showCakes(listOf())
     }
 
     override fun hideLoading() {
         progress_container.isVisible = false
+    }
+
+    override fun showSwipeToRefreshLoading() {
+        main_content_container.isRefreshing = true
+    }
+
+    override fun hideSwipeToRefreshLoading() {
         main_content_container.isRefreshing = false
+    }
+
+    override fun disableSwipeToRefreshGesture() {
+        main_content_container.isEnabled = false
+    }
+
+    override fun enableSwipeToRefreshGesture() {
+        main_content_container.isEnabled = true
     }
 
     override fun showError() {
         error_container.isVisible = true
+        error_container.retry_button.setOnClickListener { presenter.loadData() }
     }
 
     override fun hideError() {
@@ -58,7 +74,12 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
     }
 
     override fun showCakes(cakes: List<Cake>) {
+        cake_list.isVisible = true
         adapter.setItems(cakes)
+    }
+
+    override fun hideCakes() {
+        cake_list.isVisible = false
     }
 
     override fun clearCakes() {

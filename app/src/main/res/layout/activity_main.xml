@@ -53,6 +53,14 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/error_message"/>
 
+        <Button
+                android:id="@+id/retry_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/retry_title"
+                android:enabled="true"
+                android:layout_marginTop="8dp"/>
+
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

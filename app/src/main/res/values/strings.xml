@@ -3,4 +3,5 @@
     <string name="progress_title">Loading…</string>
     <string name="error_title">Oops!</string>
     <string name="error_message">Unable to load data. Try again?</string>
+    <string name="retry_title">Retry</string>
 </resources>
