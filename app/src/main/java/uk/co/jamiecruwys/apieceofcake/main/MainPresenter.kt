@@ -15,10 +15,6 @@ class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {
         this.cakeView = cakeView
     }
 
-    fun onResume() {
-        loadData()
-    }
-
     fun loadData(isSwipeToRefresh: Boolean = false) {
         view?.hideLoading()
         view?.hideServerError()

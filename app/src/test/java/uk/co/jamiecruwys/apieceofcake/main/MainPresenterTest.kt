@@ -21,7 +21,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(null)
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -33,7 +33,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(emptyList())
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -45,7 +45,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(null))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -57,7 +57,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(null, null, null))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -69,7 +69,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(LEMON_CHEESECAKE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(LEMON_CHEESECAKE))
@@ -81,7 +81,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(VICTORIA_SPONGE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(VICTORIA_SPONGE))
@@ -93,7 +93,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(LEMON_CHEESECAKE_RAW, VICTORIA_SPONGE_RAW, BANANA_CAKE_RAW, CARROT_CAKE_RAW, BIRTHDAY_CAKE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(BANANA_CAKE, BIRTHDAY_CAKE, CARROT_CAKE, LEMON_CHEESECAKE, VICTORIA_SPONGE))
@@ -105,7 +105,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(LEMON_CHEESECAKE_RAW, BANANA_CAKE_RAW, LEMON_CHEESECAKE_RAW, null, BANANA_CAKE_RAW, VICTORIA_SPONGE_RAW, BIRTHDAY_CAKE_RAW, BIRTHDAY_CAKE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(BANANA_CAKE, BIRTHDAY_CAKE, LEMON_CHEESECAKE, VICTORIA_SPONGE))
@@ -120,7 +120,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(null)
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -133,7 +133,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(emptyList())
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -146,7 +146,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(null))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -159,7 +159,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(null, null, null))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyEmpty(isSwipeToRefresh)
@@ -172,7 +172,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(LEMON_CHEESECAKE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(LEMON_CHEESECAKE))
@@ -185,7 +185,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(VICTORIA_SPONGE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(VICTORIA_SPONGE))
@@ -198,7 +198,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(LEMON_CHEESECAKE_RAW, VICTORIA_SPONGE_RAW, BANANA_CAKE_RAW, CARROT_CAKE_RAW, BIRTHDAY_CAKE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(BANANA_CAKE, BIRTHDAY_CAKE, CARROT_CAKE, LEMON_CHEESECAKE, VICTORIA_SPONGE))
@@ -211,7 +211,7 @@ class MainPresenterTest {
         tester.setSuccessResponse(listOf(LEMON_CHEESECAKE_RAW, BANANA_CAKE_RAW, LEMON_CHEESECAKE_RAW, null, BANANA_CAKE_RAW, VICTORIA_SPONGE_RAW, BIRTHDAY_CAKE_RAW, BIRTHDAY_CAKE_RAW))
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifySuccess(isSwipeToRefresh, listOf(BANANA_CAKE, BIRTHDAY_CAKE, LEMON_CHEESECAKE, VICTORIA_SPONGE))
@@ -239,7 +239,7 @@ class MainPresenterTest {
         tester.setNetworkErrorResponse()
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyNetworkError(isSwipeToRefresh)
@@ -252,7 +252,7 @@ class MainPresenterTest {
         tester.setNetworkErrorResponse()
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyNetworkError(isSwipeToRefresh)
@@ -264,7 +264,7 @@ class MainPresenterTest {
         tester.setServerErrorResponse(404)
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyServerError(isSwipeToRefresh)
@@ -277,7 +277,7 @@ class MainPresenterTest {
         tester.setServerErrorResponse(404)
 
         // When
-        tester.onResume()
+        tester.loadData(isSwipeToRefresh)
 
         // Then
         tester.verifyServerError(isSwipeToRefresh)
