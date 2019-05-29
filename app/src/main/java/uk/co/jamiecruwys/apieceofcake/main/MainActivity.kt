@@ -11,17 +11,23 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import uk.co.jamiecruwys.apieceofcake.App
 import uk.co.jamiecruwys.apieceofcake.R
 import uk.co.jamiecruwys.apieceofcake.api.Cake
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeAdapter
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeItemView
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainView, CakeItemView {
 
-    private lateinit var presenter: MainPresenter
-    private val adapter: CakeAdapter = CakeAdapter(arrayListOf(), this)
+    @Inject
+    lateinit var presenter: MainPresenter
+
+    private val adapter: CakeAdapter =
+        CakeAdapter(arrayListOf(), this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         App.appComponent.inject(this)
-        presenter = MainPresenter(this, this)
+        presenter.attach(this, this)
 
         cake_list.layoutManager = LinearLayoutManager(this)
         cake_list.adapter = adapter
@@ -33,11 +39,6 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
     override fun onResume() {
         super.onResume()
         presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun showLoading() {
@@ -64,12 +65,28 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
         main_content_container.isEnabled = true
     }
 
-    override fun showError() {
+    override fun showEmpty() {
+        // TODO:
+    }
+
+    override fun hideEmpty() {
+        // TODO:
+    }
+
+    override fun showNetworkError() {
+        // TODO:
+    }
+
+    override fun hideNetworkError() {
+        // TODO:
+    }
+
+    override fun showServerError() {
         error_container.isVisible = true
         error_container.retry_button.setOnClickListener { presenter.loadData() }
     }
 
-    override fun hideError() {
+    override fun hideServerError() {
         error_container.isVisible = false
     }
 

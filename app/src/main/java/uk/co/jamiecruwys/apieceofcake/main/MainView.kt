@@ -16,9 +16,17 @@ interface MainView {
 
     fun enableSwipeToRefreshGesture()
 
-    fun showError()
+    fun showEmpty()
 
-    fun hideError()
+    fun hideEmpty()
+
+    fun showServerError()
+
+    fun hideServerError()
+
+    fun showNetworkError()
+
+    fun hideNetworkError()
 
     fun showCakes(cakes: List<Cake>)
 

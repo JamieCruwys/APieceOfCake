@@ -1,20 +1,18 @@
 package uk.co.jamiecruwys.apieceofcake.main
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import uk.co.jamiecruwys.apieceofcake.App
-import uk.co.jamiecruwys.apieceofcake.api.ApiService
 import uk.co.jamiecruwys.apieceofcake.api.Cake
+import uk.co.jamiecruwys.apieceofcake.api.CakeRequest
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeItemView
 import javax.inject.Inject
 
-class MainPresenter(private val view: MainView?, private val cakeView: CakeItemView) {
+class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {
 
-    @Inject
-    lateinit var apiService: ApiService
+    private var view: MainView? = null
+    private var cakeView: CakeItemView? = null
 
-    init {
-        App.appComponent.inject(this)
+    fun attach(view: MainView, cakeView: CakeItemView) {
+        this.view = view
+        this.cakeView = cakeView
     }
 
     fun onResume() {
@@ -23,7 +21,9 @@ class MainPresenter(private val view: MainView?, private val cakeView: CakeItemV
 
     fun loadData(isSwipeToRefresh: Boolean = false) {
         view?.hideLoading()
-        view?.hideError()
+        view?.hideServerError()
+        view?.hideNetworkError()
+        view?.hideEmpty()
         view?.clearCakes()
         view?.hideCakes()
 
@@ -33,56 +33,55 @@ class MainPresenter(private val view: MainView?, private val cakeView: CakeItemV
             view?.showLoading()
         }
 
-        apiService.getCakeList().enqueue(object : Callback<List<Cake?>> {
-            override fun onFailure(call: Call<List<Cake?>>, t: Throwable) {
-                view?.showError()
-                view?.disableSwipeToRefreshGesture()
-                onCompletion()
-            }
-
-            override fun onResponse(call: Call<List<Cake?>>, response: Response<List<Cake?>>) {
-                val items = filterCakes(response.body())
+        cakeRequest.execute(CakeRequest.Listener(
+            onSuccess = {
+                val items = filterCakes(it)
                 if (items.isEmpty()) {
-                    view?.showError()
+                    view?.showEmpty()
                     view?.disableSwipeToRefreshGesture()
                 } else {
                     view?.showCakes(items)
                     view?.enableSwipeToRefreshGesture()
                 }
-                onCompletion()
-            }
-
-            fun onCompletion() {
+            },
+            onServerError = {
+                view?.showServerError()
+                view?.disableSwipeToRefreshGesture()
+            },
+            onNetworkError = {
+                view?.showNetworkError()
+                view?.disableSwipeToRefreshGesture()
+            },
+            onCompletion = {
                 if (isSwipeToRefresh) {
                     view?.hideSwipeToRefreshLoading()
                 } else {
                     view?.hideLoading()
                 }
             }
-        })
+        ))
     }
 
     fun filterCakes(cakes: List<Cake?>?): List<Cake> {
-        cakes ?: return listOf()
-        val availableCakes: List<Cake> = cakes.filterNotNull()
-        val uniqueCakes: List<Cake> = availableCakes.distinctBy { it.title }
+        val availableCakes = cakes?.filterNotNull() ?: listOf()
+        val uniqueCakes = availableCakes.distinctBy { it.title }
         val sortedCakes = uniqueCakes.sortedBy { it.title }
+        return capitaliseCakeText(sortedCakes)
+    }
 
+    private fun capitaliseCakeText(cakes: List<Cake>): List<Cake> {
         val capitalisedTextCakes = arrayListOf<Cake>()
-        sortedCakes.forEach { cake ->
+        cakes.forEach { cake ->
             capitalisedTextCakes.add(Cake(
                 cake.title?.capitalize() ?: "",
                 cake.desc?.capitalize() ?: "",
                 cake.image
             ))
         }
-
         return capitalisedTextCakes
     }
 
     fun onCakeItemClicked(cake: Cake) {
-        cakeView.showCakeInfoDialog(cake)
+        cakeView?.showCakeInfoDialog(cake)
     }
-
-    fun onDestroy() {}
 }
