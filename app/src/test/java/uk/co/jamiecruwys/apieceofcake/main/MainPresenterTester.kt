@@ -83,21 +83,27 @@ class MainPresenterTester {
 
     fun setSuccessResponse(cakes: List<Cake?>? = listOf()) {
         doAnswer {
-            (it.arguments[0] as? CakeRequest.Listener)?.onSuccess?.invoke(cakes)
+            val listener = it.arguments[0] as CakeRequest.Listener
+            listener.onSuccess.invoke(cakes)
+            listener.onCompletion.invoke()
             null
         }.whenever(cakeRequest).execute(any())
     }
 
     fun setServerErrorResponse(responseCode: Int = 404) {
         doAnswer {
-            (it.arguments[0] as? CakeRequest.Listener)?.onServerError?.invoke(responseCode)
+            val listener = it.arguments[0] as CakeRequest.Listener
+            listener.onServerError.invoke(responseCode)
+            listener.onCompletion.invoke()
             null
         }.whenever(cakeRequest).execute(any())
     }
 
     fun setNetworkErrorResponse() {
         doAnswer {
-            (it.arguments[0] as CakeRequest.Listener).onNetworkError.invoke()
+            val listener = it.arguments[0] as CakeRequest.Listener
+            listener.onNetworkError.invoke()
+            listener.onCompletion.invoke()
             null
         }.whenever(cakeRequest).execute(any())
     }
