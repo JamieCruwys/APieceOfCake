@@ -66,7 +66,7 @@ class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {
         }
     }
 
-    fun filterCakes(cakes: List<Cake?>?): List<Cake> {
+    private fun filterCakes(cakes: List<Cake?>?): List<Cake> {
         val availableCakes = cakes?.filterNotNull() ?: listOf()
         val uniqueCakes = availableCakes.distinctBy { it.title }
         val sortedCakes = uniqueCakes.sortedBy { it.title }
