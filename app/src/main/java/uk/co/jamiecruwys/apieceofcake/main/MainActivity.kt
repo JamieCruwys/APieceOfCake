@@ -2,6 +2,7 @@ package uk.co.jamiecruwys.apieceofcake.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
         cake_list.layoutManager = LinearLayoutManager(this)
         cake_list.adapter = adapter
         cake_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        cake_list.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_fall_down)
 
         main_content_container.setOnRefreshListener { presenter.loadData(isSwipeToRefresh = true) }
     }
@@ -93,6 +95,7 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
     override fun showCakes(cakes: List<Cake>) {
         cake_list.isVisible = true
         adapter.setItems(cakes)
+        cake_list.scheduleLayoutAnimation()
     }
 
     override fun hideCakes() {
@@ -101,6 +104,7 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
 
     override fun clearCakes() {
         adapter.setItems(listOf())
+        cake_list.scheduleLayoutAnimation()
     }
 
     override fun onCakeClicked(cake: Cake) {
