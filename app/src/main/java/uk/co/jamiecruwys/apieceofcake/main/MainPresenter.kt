@@ -18,7 +18,12 @@ class MainPresenter(private val view: MainView?, private val cakeView: CakeItemV
     }
 
     fun onResume() {
+        loadData()
+    }
+
+    fun loadData() {
         view?.hideError()
+        view?.clearCakes()
         view?.showLoading()
         apiService.getCakeList().enqueue(object : Callback<List<Cake>> {
             override fun onResponse(call: Call<List<Cake>>, response: Response<List<Cake>>) {
