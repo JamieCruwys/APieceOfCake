@@ -35,14 +35,7 @@ class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {
 
         cakeRequest.execute(CakeRequest.Listener(
             onSuccess = {
-                val items = filterCakes(it)
-                if (items.isEmpty()) {
-                    view?.showEmpty()
-                    view?.disableSwipeToRefreshGesture()
-                } else {
-                    view?.showCakes(items)
-                    view?.enableSwipeToRefreshGesture()
-                }
+                onSuccess(it)
             },
             onServerError = {
                 view?.showServerError()
@@ -53,13 +46,28 @@ class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {
                 view?.disableSwipeToRefreshGesture()
             },
             onCompletion = {
-                if (isSwipeToRefresh) {
-                    view?.hideSwipeToRefreshLoading()
-                } else {
-                    view?.hideLoading()
-                }
+                onCompletion(isSwipeToRefresh)
             }
         ))
+    }
+
+    private fun onSuccess(cakes: List<Cake?>?) {
+        val items = filterCakes(cakes)
+        if (items.isEmpty()) {
+            view?.showEmpty()
+            view?.disableSwipeToRefreshGesture()
+        } else {
+            view?.showCakes(items)
+            view?.enableSwipeToRefreshGesture()
+        }
+    }
+
+    private fun onCompletion(isSwipeToRefresh: Boolean) {
+        if (isSwipeToRefresh) {
+            view?.hideSwipeToRefreshLoading()
+        } else {
+            view?.hideLoading()
+        }
     }
 
     fun filterCakes(cakes: List<Cake?>?): List<Cake> {
@@ -79,6 +87,21 @@ class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {
             ))
         }
         return capitalisedTextCakes
+    }
+
+    fun restoreState(cakes: List<Cake>) {
+        view?.hideLoading()
+        view?.hideServerError()
+        view?.hideNetworkError()
+        view?.hideEmpty()
+        view?.clearCakes()
+        view?.hideCakes()
+
+        view?.hideSwipeToRefreshLoading()
+        view?.disableSwipeToRefreshGesture()
+
+        onSuccess(cakes)
+        onCompletion(false)
     }
 
     fun onCakeItemClicked(cake: Cake) {
