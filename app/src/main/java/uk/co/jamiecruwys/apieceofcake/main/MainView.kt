@@ -33,5 +33,4 @@ interface MainView {
     fun hideCakes()
 
     fun clearCakes()
-
 }

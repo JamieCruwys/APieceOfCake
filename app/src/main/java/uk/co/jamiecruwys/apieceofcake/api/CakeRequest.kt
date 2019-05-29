@@ -13,7 +13,7 @@ class CakeRequest @Inject constructor(private val apiService: ApiService) {
         val onNetworkError: () -> Unit,
         val onCompletion: () -> Unit
     )
-    
+
     fun execute(listener: Listener) {
         apiService.getCakeList().enqueue(object : Callback<List<Cake?>?> {
             override fun onFailure(call: Call<List<Cake?>?>, t: Throwable) {
