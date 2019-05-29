@@ -36,4 +36,7 @@ ext {
     daggerVersion = '2.22.1'
     okhttp3Version = '3.14.0'
     retrofitVersion = '2.5.0'
+    mockitoVersion = '2.27.0'
+    nhaarmanMockitoVersion = '2.1.0'
+    espressoVersion = '3.1.0'
 }
