@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import uk.co.jamiecruwys.apieceofcake.api.Cake
 import uk.co.jamiecruwys.apieceofcake.api.CakeRequest
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeItemView
 
 class MainPresenterTester {
 

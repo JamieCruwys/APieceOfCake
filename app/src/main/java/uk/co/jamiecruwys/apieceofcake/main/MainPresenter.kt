@@ -2,6 +2,7 @@ package uk.co.jamiecruwys.apieceofcake.main
 
 import uk.co.jamiecruwys.apieceofcake.api.Cake
 import uk.co.jamiecruwys.apieceofcake.api.CakeRequest
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeItemView
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(private val cakeRequest: CakeRequest) {

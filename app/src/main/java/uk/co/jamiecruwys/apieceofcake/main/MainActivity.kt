@@ -11,6 +11,8 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import uk.co.jamiecruwys.apieceofcake.App
 import uk.co.jamiecruwys.apieceofcake.R
 import uk.co.jamiecruwys.apieceofcake.api.Cake
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeAdapter
+import uk.co.jamiecruwys.apieceofcake.main.list.CakeItemView
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainView, CakeItemView {
@@ -18,7 +20,8 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
     @Inject
     lateinit var presenter: MainPresenter
 
-    private val adapter: CakeAdapter = CakeAdapter(arrayListOf(), this)
+    private val adapter: CakeAdapter =
+        CakeAdapter(arrayListOf(), this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
