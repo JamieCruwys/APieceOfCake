@@ -298,5 +298,4 @@ class MainPresenterTest {
         val BANANA_CAKE = Cake("Banana cake", "Donkey kongs favourite", "http://ukcdn.ar-cdn.com/recipes/xlarge/ff22df7f-dbcd-4a09-81f7-9c1d8395d936.jpg")
         val BIRTHDAY_CAKE = Cake("Birthday cake", "A yearly treat", "https://www.frenchvillagebakery.co.uk/databaseimages/prd_8594342__painted_pink_and_gold_cake_512x640.jpg")
     }
-
 }

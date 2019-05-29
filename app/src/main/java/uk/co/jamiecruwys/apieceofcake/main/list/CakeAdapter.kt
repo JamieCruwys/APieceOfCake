@@ -7,8 +7,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_cake.view.*
 import uk.co.jamiecruwys.apieceofcake.R
 import uk.co.jamiecruwys.apieceofcake.api.Cake
-import uk.co.jamiecruwys.apieceofcake.main.list.CakeItemView
-import uk.co.jamiecruwys.apieceofcake.main.list.CakeViewHolder
 
 class CakeAdapter(private val cakes: ArrayList<Cake>, private val view: CakeItemView) : RecyclerView.Adapter<CakeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CakeViewHolder {
