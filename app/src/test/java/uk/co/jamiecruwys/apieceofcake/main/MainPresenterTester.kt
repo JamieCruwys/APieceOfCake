@@ -22,8 +22,8 @@ class MainPresenterTester {
         presenter.attach(mainView, cakeView)
     }
 
-    fun onResume() {
-        presenter.onResume()
+    fun loadData(isSwipeToRefresh: Boolean) {
+        presenter.loadData(isSwipeToRefresh)
     }
 
     fun verifySuccess(isSwipeToRefresh: Boolean, cakes: List<Cake>) {
