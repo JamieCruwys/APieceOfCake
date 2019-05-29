@@ -13,4 +13,6 @@ interface MainView {
     fun hideError()
 
     fun showCakes(cakes: List<Cake>)
+
+    fun clearCakes()
 }

@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
         cake_list.layoutManager = LinearLayoutManager(this)
         cake_list.adapter = adapter
         cake_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
+        main_content_container.setOnRefreshListener { presenter.loadData() }
     }
 
     override fun onResume() {
@@ -39,10 +41,12 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
 
     override fun showLoading() {
         progress_container.isVisible = true
+        showCakes(listOf())
     }
 
     override fun hideLoading() {
         progress_container.isVisible = false
+        main_content_container.isRefreshing = false
     }
 
     override fun showError() {
@@ -55,6 +59,10 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
 
     override fun showCakes(cakes: List<Cake>) {
         adapter.setItems(cakes)
+    }
+
+    override fun clearCakes() {
+        adapter.setItems(listOf())
     }
 
     override fun onCakeClicked(cake: Cake) {

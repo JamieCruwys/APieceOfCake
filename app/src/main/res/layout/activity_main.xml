@@ -55,7 +55,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/main_content_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -67,6 +67,6 @@
                 android:scrollbars="vertical"
                 android:layout_height="match_parent"/>
 
-    </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
