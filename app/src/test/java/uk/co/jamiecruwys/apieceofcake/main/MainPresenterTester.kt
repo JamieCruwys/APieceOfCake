@@ -36,26 +36,28 @@ class MainPresenterTester {
     fun verifyEmpty(isSwipeToRefresh: Boolean) {
         verifyLoadDataCalled(isSwipeToRefresh, false)
         verify(mainView).showEmpty()
-        verify(mainView, times(2)).disableSwipeToRefreshGesture()
         verifyCompletion(isSwipeToRefresh)
     }
 
     fun verifyServerError(isSwipeToRefresh: Boolean) {
         verifyLoadDataCalled(isSwipeToRefresh, false)
         verify(mainView).showServerError()
-        verify(mainView, times(2)).disableSwipeToRefreshGesture()
         verifyCompletion(isSwipeToRefresh)
     }
 
     fun verifyNetworkError(isSwipeToRefresh: Boolean) {
         verifyLoadDataCalled(isSwipeToRefresh, false)
         verify(mainView).showNetworkError()
-        verify(mainView, times(2)).disableSwipeToRefreshGesture()
         verifyCompletion(isSwipeToRefresh)
     }
 
     private fun verifyLoadDataCalled(isSwipeToRefresh: Boolean, shouldAllowSwipeToRefreshAfter: Boolean) {
-        verify(mainView).hideLoading()
+        if (isSwipeToRefresh) {
+            verify(mainView).hideLoading()
+        } else {
+            verify(mainView, times(2)).hideLoading()
+        }
+
         verify(mainView).hideServerError()
         verify(mainView).hideNetworkError()
         verify(mainView).hideEmpty()
@@ -70,14 +72,14 @@ class MainPresenterTester {
                 verify(mainView, times(2)).disableSwipeToRefreshGesture()
             }
             verify(mainView).showLoading()
+        } else if (!shouldAllowSwipeToRefreshAfter) {
+            verify(mainView).disableSwipeToRefreshGesture()
         }
     }
 
     private fun verifyCompletion(isSwipeToRefresh: Boolean) {
         if (isSwipeToRefresh) {
             verify(mainView).hideSwipeToRefreshLoading()
-        } else {
-            verify(mainView).hideLoading()
         }
     }
 
