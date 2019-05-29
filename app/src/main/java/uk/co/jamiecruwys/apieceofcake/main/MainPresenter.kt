@@ -8,7 +8,7 @@ import uk.co.jamiecruwys.apieceofcake.api.ApiService
 import uk.co.jamiecruwys.apieceofcake.api.Cake
 import javax.inject.Inject
 
-class MainPresenter(private val view: MainView?) {
+class MainPresenter(private val view: MainView?, private val cakeView: CakeItemView) {
 
     @Inject
     lateinit var apiService: ApiService
@@ -56,6 +56,10 @@ class MainPresenter(private val view: MainView?) {
         }
 
         return capitalisedTextCakes
+    }
+
+    fun onCakeItemClicked(cake: Cake) {
+        cakeView.showCakeInfoDialog(cake)
     }
 
     fun onDestroy() {}
