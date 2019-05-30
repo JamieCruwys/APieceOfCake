@@ -2,6 +2,8 @@
     <string name="app_name">A Piece Of Cake</string>
     <string name="progress_title">Loading…</string>
     <string name="error_title">Oops!</string>
-    <string name="error_message">Unable to load data. Try again?</string>
+    <string name="network_error_message">No internet connection. Try again?</string>
+    <string name="server_error_message">Unable to load data. Try again?</string>
+    <string name="empty_list_message">You don\'t have any cakes. Try again?</string>
     <string name="retry_title">Retry</string>
 </resources>

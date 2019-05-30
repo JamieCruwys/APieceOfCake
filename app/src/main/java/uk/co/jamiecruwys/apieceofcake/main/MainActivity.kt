@@ -118,28 +118,30 @@ class MainActivity : AppCompatActivity(), MainView, CakeItemView {
     }
 
     override fun showEmpty() {
-        // TODO:
+        empty_list_container.isVisible = true
+        empty_list_retry_button.setOnClickListener { presenter.loadData() }
     }
 
     override fun hideEmpty() {
-        // TODO:
+        empty_list_container.isVisible = false
     }
 
     override fun showNetworkError() {
-        // TODO:
+        network_error_container.isVisible = true
+        network_error_retry_button.setOnClickListener { presenter.loadData() }
     }
 
     override fun hideNetworkError() {
-        // TODO:
+        network_error_container.isVisible = false
     }
 
     override fun showServerError() {
-        error_container.isVisible = true
-        error_container.retry_button.setOnClickListener { presenter.loadData() }
+        server_error_container.isVisible = true
+        server_error_retry_button.setOnClickListener { presenter.loadData() }
     }
 
     override fun hideServerError() {
-        error_container.isVisible = false
+        server_error_container.isVisible = false
     }
 
     override fun showCakes(cakes: List<Cake>) {

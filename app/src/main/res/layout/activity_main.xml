@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/error_container"
+            android:id="@+id/network_error_container"
             android:layout_width="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical"
@@ -51,10 +51,80 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:layout_marginTop="8dp"
-                android:text="@string/error_message"/>
+                android:text="@string/network_error_message"/>
 
         <Button
-                android:id="@+id/retry_button"
+                android:id="@+id/network_error_retry_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/retry_title"
+                android:enabled="true"
+                android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/server_error_container"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/error_title"/>
+
+        <TextView
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:text="@string/server_error_message"/>
+
+        <Button
+                android:id="@+id/server_error_retry_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/retry_title"
+                android:enabled="true"
+                android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/empty_list_container"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/error_title"/>
+
+        <TextView
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:text="@string/empty_list_message"/>
+
+        <Button
+                android:id="@+id/empty_list_retry_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/retry_title"
